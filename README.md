@@ -32,7 +32,7 @@ directory with the following details.
 	API_KEY_SECRET=
 	REDIRECT_URI=(#Replace this with your app location)/authenticated
 
-	**#These are the details fetched by registring app to [Stack App](http://stackapps.com/)**
+	#### These are the details fetched by registring app to [Stack App](http://stackapps.com/)
 			
 	
 ## Starting webserver
@@ -41,7 +41,7 @@ On successfull build, an executable will be created at the build location.
 Execute that from terminal. It will launch a webserver at port 8000
 Pull the login page.
 
-	**http://localhost:4748**	
+	#### http://localhost:4748	
 
 ## Code Structure
 
@@ -54,4 +54,4 @@ Pull the login page.
 	
 
 ## Visit code deployed onto heroku.
-	[application on heroku](http://infinite-escarpment-8662.herokuapp.com)
+	[ application on heroku ](http://infinite-escarpment-8662.herokuapp.com)
