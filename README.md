@@ -1,4 +1,4 @@
-# Simple tool in golang
+# Simple analysis tool in golang
 A simple analysis tool made in golang to find out the spread of questions across related tags
 
 This application entirely depends upom Api's published by StackOverflow.
