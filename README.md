@@ -3,7 +3,7 @@ A simple analysis tool made in golang to find out the spread of questions across
 
 This application entirely depends upon Api's published by StackOverflow.
 This app is an example of using Nvd3 charts, gorilla websocket, Stack api with golang's 
-templating mechanism. 
+templates. 
 
 On executing the application a http server will be launched at port :4748
 
