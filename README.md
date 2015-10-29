@@ -1,14 +1,13 @@
 # Simple analysis tool in golang
 A simple analysis tool made in golang to find out the spread of questions across related tags
 
-This application entirely depends upom Api's published by StackOverflow.
+This application entirely depends upon Api's published by StackOverflow.
 This app is an example of using Nvd3 charts, gorilla websocket, Stack api with golang's 
 templating mechanism. 
 
 On executing the application a http server will be launched at port :4748
 
 ## Environment set up
-
 Download the latest stable Go distribution(go1.5) from the golang site and follow
 the instruction mentioned.
   
