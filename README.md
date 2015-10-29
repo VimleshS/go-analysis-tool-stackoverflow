@@ -38,7 +38,7 @@ directory with the following details.
 ## Starting webserver
 
 On successfull build, an executable will be created at the build location. 
-Execute that from terminal. It will launch a webserver at port 8000
+Execute that from terminal. It will launch a webserver at port 4748
 Pull the login page.
 
 ######  http://localhost:4748	
