@@ -30,8 +30,18 @@ func main() {
 	http.HandleFunc("/authenticated", authenticatedHandler)
 	http.HandleFunc("/userdetail", getajaxHandler)
 
-	log.Println("\nServer Started On Port :8000...")
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(GetPort(), nil)
+}
+
+func GetPort() string {
+	var port = os.Getenv("PORT")
+	// Set a default port if there is nothing in the environment
+	if port == "" {
+		port = "4748"
+		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
+	}
+	log.Println("\nServer Started On Port..")
+	return ":" + port
 }
 
 func landingPage(w http.ResponseWriter, r *http.Request) {
