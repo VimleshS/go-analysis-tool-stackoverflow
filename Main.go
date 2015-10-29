@@ -41,7 +41,7 @@ func GetPort() string {
 		port = "4748"
 		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
 	}
-	log.Println("\nServer Started On Port..")
+	log.Println("\nServer Started On Port :4748")
 	return ":" + port
 }
 
