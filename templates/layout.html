@@ -1,0 +1,35 @@
+{{define "layout"}}
+<!doctype html >
+<html style="height:100%" >
+<head>
+  <meta charset="utf-8">
+  <title>{{template "title"}}</title>
+  <link rel="stylesheet" href="/static/stylesheets/main.css">
+   
+	<link rel="shortcut icon" href="/static/img/favicon.ico">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	
+    <link rel="stylesheet" href="/static/libs/css/bootstrap.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	
+
+	<script type="text/javascript" src="/static/libs/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/static/stylesheets/app.js"></script> 
+	<!--<script type="text/javascript" src="/static/Chart.js-master/Chart.js"></script> -->
+
+
+	<script type="text/javascript" src="/static/nvd3/d3.min.js"></script> 
+	<script type="text/javascript" src="/static/nvd3/nv.d3.js"></script> 
+    <link rel="stylesheet" href="/static/nvd3/nv.d3.css">
+
+</head>
+<body style="height:100%" >
+	<div id="container" style="height:100%" >
+	  {{template "body" .}}
+	</div>
+</body>
+</html>
+{{end}}

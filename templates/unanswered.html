@@ -1,0 +1,28 @@
+{{define "content"}}
+<!--<div style="background-image:  linear-gradient(to bottom, #ffffff, #d8eaea);border-radius: 10px;font-size: small;">-->
+<div style="background-image:  linear-gradient(to bottom, #ffffff, #F2F492);border-radius: 10px;font-size: small;">
+  <div>
+ 	<img src="/static/img/Date.png" width="10" height="10" style="float: left;">
+    {{.CreationDate}}
+  </div>
+
+<!--   <div>
+ 	<img src="/static/img/tag.png" width="10" height="10" style="float: left;">
+   	<a class="navigate" data-uid="{{.UserId}}" href="/search?q={{.UserId}}">{{.UserName}}</a>
+   </div>-->
+
+<!--   <div>
+	  <img src="/static/img/Q1.png" width="15" height="15" style="float: left;">
+	  <p>{{.Question}}</p>
+    </div>-->
+
+   <div>
+	   <a href="{{.Link}}" target="_blank">{{.Question}}</a> 
+   </div>
+	
+
+
+
+
+</div>
+{{end}}

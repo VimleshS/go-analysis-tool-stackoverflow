@@ -1,0 +1,34 @@
+{{define "title"}}Home Page{{end}}
+
+{{define "body"}}
+
+<form name="input-form" class="input-form"  action="/authenticate" method="post">
+	
+		<div class="header">
+			<h3>You will be redirected to Stack Exchange website for authentication</h3>
+		</div>
+		
+		
+
+    	<div class="footer">
+			<input class="button" id="uploadBtn" value="AUTHORIZE" type="submit"  >		  
+		</div>	
+</form>
+
+<style>
+	#ex1Slider .slider-selection {
+		background: #BABABA;
+	}
+</style>
+
+<script type="text/javascript">
+	$( "#fileId" ).change(function() {
+		var ext = $('#fileId').val().split('.').pop().toLowerCase();
+		if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+			$( "#fileId" ).val(""); 
+		    alert("Please select image file only.!");
+		}
+	});
+</script>
+
+{{end}}

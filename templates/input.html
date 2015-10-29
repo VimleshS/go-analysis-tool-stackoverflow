@@ -1,0 +1,367 @@
+{{define "title"}}SELECT TAGS{{end}}
+
+{{define "body"}}
+
+<div id="taginput" style="height:15%" >
+	<form name="input-form" class="small-box-form" id="input-form" style="height:100%" >
+		
+			<div class="header">
+				<h3>Select Tags for Users.</h3>
+			</div>
+			
+			<div class="content col-xs-12">
+				<label class="input-label col-xs-3 label-info">
+					<strong> Search Tags : </strong>
+				</label>
+				<input class="input-medium  col-xs-5 input" type="text" id="searchtextId" name="searchtext" required="true">						
+				<input class="button col-xs-2 pull-right" id="uploadBtn" value="Search" type="submit"  >		  
+			</div>	
+	
+			<input id="PageNo" type="hidden" value=1>
+
+	</form>
+</div>
+
+
+<div id="outputdata" style="height:85%">
+	<div id="innerheading">
+		<label style="padding-left: 400px;">
+			<strong> Related Tags </strong>
+		</label>	
+		<label style="padding-left: 550px; background-color : #FAFAFA;">
+			<strong> Unanswered Question</strong>
+		</label>	
+	</div>
+	
+	<!--<div id="logs" >-->
+	<div id="mypie" >
+		<svg id="test1" class="mypiechart"></svg>
+	</div>
+	<div id="userdetail" >
+		<div id="discretebarchart">
+		    <svg></svg>
+		</div>
+
+		<label id="relatedlabel"  style="text-align: center;width: 100%;">
+			<strong> </strong>
+		</label>	
+	</div>			
+</div>
+
+
+<div id="modalProgressBar" style="display: none">
+    <div class="center">
+        <img alt="" src="/static/img/ajax-loader2.gif" />
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+     	  <div id="logs" ></div>
+      </div>
+      <!--<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>-->
+    </div>
+  </div>
+</div>
+
+
+<style>
+
+	#innerheading {	
+	    background-color: #FAFAFA;
+	    border-color: black;
+	    border-style: solid;
+	    border-width: 1px;
+		border-radius: 10px;
+	}
+
+	#mypie, svg {
+            display: block;
+            float: left;
+			height: 570px !important;
+            width: 800px; 
+    }
+	
+	#outputdata{
+		height: 100%;
+	    <!--background-color: blue;-->
+	}
+
+    #discretebarchart, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 550px !important;
+            width: 280px ;
+
+        }
+
+	#modalProgressBar {
+	  position: fixed;
+	  top: 50%;
+	  left: 50%;
+	  margin-top: -50px;
+	  margin-left: -100px;
+	}
+
+	.modal-content_NA {
+		overflow-y: auto;
+	    height: 650px;
+	}
+
+	#logs {
+	    background-color : ghostwhite;
+		height: 500px;		
+  		overflow-y: auto;
+	    overflow: auto;   
+	}
+
+	#mypie {
+	    background-color : white;
+		height :100%;
+		width :75%;
+		float :left;
+  
+	    border-color: grey;
+	    //border-style: solid;
+		border-right-style: solid;
+	    border-width: 1px !important;
+	}
+	
+	#userdetail{
+        width: 25%;
+        float: left;
+		height: 570px !important;
+ 		background-color : #FAFAFA;
+    }
+
+		
+</style>
+
+<script type="text/javascript">
+	$(function() {
+	    var conn;
+	    var searchtextId = $("#searchtextId");
+	    var log = $("#logs");
+		var page = $("#PageNo")
+
+	    function appendLog(msg) {
+	        msg.appendTo(log)
+	    }
+		
+		function requestData(){
+			//return $("#PageNo").val() + "#" + searchtextId.val()
+			return "LOADPIECHARTDATA#" +searchtextId.val()
+		}
+
+		function requestDataPage(){
+			return "LOADUNANSWEREDQUESTIONS#" +$("#PageNo").val() +"#"+searchtextId.val() +";" + $("#relatedlabel").text()
+		}
+
+
+	    $("#input-form").submit(function() {
+	        if (!conn) {
+	            return false;
+	        }
+
+			//page.val("LOADPIECHARTDATA")
+	        if (!searchtextId.val()) {
+	            return false;
+	        }
+			
+			$("#modalProgressBar").show();		
+			$("#relatedlabel").text(searchtextId.val())
+			conn.send(requestData())
+	        return false
+	    });
+
+		function GetDataForIndividualTags(data){
+			senddata = "LOADINDIVIDUALTAGDATA" + "#" + searchtextId.val()+";"+data;
+			$("#relatedlabel").text(data)
+			conn.send(senddata);
+		}
+
+		function open_in_new_tab(tag)
+		{
+		  url = "http://stackoverflow.com/questions/tagged/"+tag;
+		  var win=window.open(url, '_blank');
+		  win.focus();
+		}
+
+		
+	    if (window["WebSocket"]) {
+	        conn = new WebSocket("ws://{{.EndPoint}}/ws");
+	        conn.onclose = function(evt) {
+	            appendLog($("<div><b>Connection closed.</b></div>"))
+	        }
+	        conn.onmessage = function(evt) {
+
+				data = JSON.parse(evt.data);
+				if (data.key == "PIECHARTDATA") {
+					
+				    chart.legend.dispatch.stateChange = OrigStateChange 
+					piechartdata = data.values;
+				    d3.select("#test1")
+				            .datum(piechartdata)
+				            .transition().duration(1200)
+				            .attr('width', width)
+				            .attr('height', height)
+				            .call(chart);
+					$("#modalProgressBar").hide();
+	
+				  	d3.selectAll(".nv-pie .nv-pie .nv-slice").on("click", function(data) {
+						$("#modalProgressBar").show();
+						GetDataForIndividualTags(data.data.key);
+					});	
+
+					chart.legend.dispatch.legendClick = function(d, i){
+						$("#modalProgressBar").show();
+						GetDataForIndividualTags(d.key);
+					};
+					chart.legend.dispatch.stateChange = function(){}
+	
+				} else if (data.key == "INDIVIDUALTAGDATASTART"){
+					historicalBarChart =  data.values;
+					historicalBarChart = new Array(historicalBarChart)
+					d3.select('#discretebarchart svg')
+						.datum(historicalBarChart)
+						.transition()
+						.duration(500)
+						.call(hischart);	
+						
+						
+					d3.selectAll(".nv-bar").on("click", function(data) {
+						$("#PageNo").val("1")
+						log.empty()
+						
+						$('#myModalLabel').text(searchtextId.val()+";" +$("#relatedlabel").text())
+						conn.send(requestDataPage());
+
+						$('#myModal').modal({show:true});
+						//open_in_new_tab(searchtextId.val()+"+"+$("#relatedlabel").text());
+					});	
+						
+					nv.utils.windowResize(hischart.update);	
+					$("#modalProgressBar").hide();	
+				} else if (data.key == "LOADUNANSWEREDQUESTIONS"){
+
+					if (data.Html == "<EOM>"){
+						console.log("EOM")
+	 					$("#logs").css('overflow','auto');
+					}
+	
+					if (data.Html == "<NOMOREDATA>"){
+						console.log("NOMOREDATA FROM SERVER")
+						$("#PageNo").val("-1")
+					}
+
+					$("#logs").append(data.Html)			
+				}
+
+	        }
+	    } else {
+	        appendLog($("<div><b>Your browser does not support WebSockets.</b></div>"))
+	    }
+
+
+		$("#logs").bind("scroll",function(){
+			var d = log[0]
+			if (d.scrollHeight <= (d.scrollTop + d.clientHeight + 1)) {
+
+				if ($("#PageNo").val() == "-1"){
+					console.log("NOMOREDATA EXITING SCROLL")
+					return 
+				}
+
+				page = parseInt($("#PageNo").val())
+				page++
+				$("#PageNo").val(page.toString())
+				//$("#modalProgressBar").show();
+				$("#logs").css('overflow','hidden');
+				
+				conn.send(requestDataPage())
+				console.log("Page Nos: " + $("#PageNo").val())				
+				//console.log("d.clientHeight: " + d.clientHeight + " d.scrollTop  " + d.scrollTop + " d.scrollHeight "+ d.scrollHeight)
+  		 	 }
+
+		});
+
+		
+    });
+
+
+
+
+
+	//Outside dom ready
+    var height = 600;
+    var width = 800;
+	var chart;
+
+	 nv.addGraph(function() {
+        chart = nv.models.pieChart()
+            .x(function(d) { return d.key })
+            .y(function(d) { return d.y })
+            .width(width)
+            .height(height)
+			.showLabels(true)
+			.labelThreshold(.01)
+			.labelSunbeamLayout(true)
+			.valueFormat(d3.format(''))
+			.legendPosition("right")
+			.donut(true);
+		
+		OrigStateChange = chart.legend.dispatch.stateChange;
+
+		chart.margin({"left":1,"right":1,"top":3,"bottom":3})
+
+        return chart;
+    });
+
+	// Maintian an instance of the chart 
+	var hischart; 
+	
+	// Maintain an Instance of the SVG selection with its data
+	var hischartData;
+
+    nv.addGraph(function() {
+ 		//var width = 400
+         hischart = nv.models.discreteBarChart()
+            .x(function(d) { return d.key })
+            .y(function(d) { return d.y })
+            //.staggerLabels(true)
+            //.staggerLabels(historicalBarChart[0].values.length > 8)
+            .showValues(true)
+            .duration(250)
+			.color(["#FF0000","#00FF00"]);
+
+		hischart.yAxis.tickFormat(d3.format(',f'));
+		hischart.valueFormat(d3.format('d'));
+
+
+/*
+		hischartData = d3.select('#discretebarchart svg')
+					.datum(historicalBarChart)
+					.transition()
+					.duration(500)
+					.call(hischart);
+
+        nv.utils.windowResize(hischart.update);
+*/
+        return hischart;
+    });
+	
+
+	
+</script>
+
+{{end}}
