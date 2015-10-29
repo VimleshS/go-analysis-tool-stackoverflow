@@ -53,5 +53,5 @@ Pull the login page.
 	Utils.go	:Few routines.. 
 	
 
-## Visit code deployed onto heroku.
+## Visit application deployed onto heroku.
 ######[Application on heroku ](http://infinite-escarpment-8662.herokuapp.com)
