@@ -53,4 +53,4 @@ Pull the login page.
 	
 
 ## Visit application deployed to heroku.
-######[Application on heroku ](http://infinite-escarpment-8662.herokuapp.com)
+######[Application on heroku ](https://soanalysis.herokuapp.com/)
